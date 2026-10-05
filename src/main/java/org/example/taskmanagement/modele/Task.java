@@ -1,6 +1,9 @@
 package org.example.taskmanagement.modele;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import org.example.taskmanagement.Enum.Priority;
 import org.example.taskmanagement.Enum.Status;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,15 +15,20 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
    private Long id;
+    @NotBlank(message = "Title is required")
    private String title;
    private String description;
+    @NotNull(message = "Status is required")
    @Enumerated(EnumType.STRING)
    private Status status;
+    @NotNull(message = "Priority is required")
    @Enumerated(EnumType.STRING)
    private Priority priority;
    @Column(updatable = false)
    @CreationTimestamp
    private LocalDate creationDate;
+   @NotNull(message = "Due date is required")
+   @FutureOrPresent(message = "Due date cannot be in the past")
    private LocalDate dueDate;
 
     public Task() {

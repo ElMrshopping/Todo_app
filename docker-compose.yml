@@ -1,0 +1,19 @@
+services:
+  db :
+    container_name: postgres-taskmanagement
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: tresor
+      POSTGRES_PASSWORD: lamaisonbluemarine0145
+      POSTGRES_DB: taskmanagement_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - taskdata:/var/lib/postgresql
+    networks:
+      - taskdb
+networks:
+  taskdb:
+    driver: bridge
+volumes:
+  taskdata:
