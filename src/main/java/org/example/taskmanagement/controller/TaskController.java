@@ -1,6 +1,7 @@
 package org.example.taskmanagement.controller;
 
 import jakarta.validation.Valid;
+import org.example.taskmanagement.exception.TaskNotFoundException;
 import org.example.taskmanagement.modele.Task;
 import org.example.taskmanagement.services.TaskService;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +25,9 @@ public class TaskController {
     }
 
     @GetMapping("{id}")
-    public Task getTaskById(@PathVariable Long id) {
+    public Task getTaskById(@PathVariable Long id) throws TaskNotFoundException {
         return taskService.getTaskById(id).orElseThrow(
-                () -> new RuntimeException("Task not found with id: " + id)
+                () -> new TaskNotFoundException(id)
         );
     }
 
@@ -35,7 +36,7 @@ public class TaskController {
         taskService.deleteTaskById(id);
     }
     @PutMapping("{id}")
-    public Task updateTaskById(@PathVariable Long id, @Valid @RequestBody Task task) {
+    public Task updateTaskById(@PathVariable Long id, @Valid @RequestBody Task task)  {
         return taskService.updateTask(id, task);
     }
     @PostMapping
